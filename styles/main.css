@@ -56,7 +56,7 @@ body {
   transform-style: preserve-3d;
 }
 
-.flip-container:hover .flipper {
+.flip-container .flipper.hover {
   transform: rotateY(180deg);
 }
 

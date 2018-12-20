@@ -1,25 +1,37 @@
 (function(global) {
-  let MAX_HANDLED_CARD = 2;
+  const MAX_HANDLED_CARD = 2;
 
-  let doc = global.document,
-    win = global.window;
+  const doc = global.document,
+    win = global.window,
+    cardImgMap = new Map([
+      ['images/1.jpg', 1],
+      ['images/2.jpg', 2],
+      ['images/3.jpg', 3],
+      ['images/4.jpg', 4],
+      ['images/5.jpg', 5],
+      ['images/6.jpg', 6],
+    ]),
+    imageArr = Array.from(cardImgMap.keys());
 
-  let cardImgMap = new Map([
-    ['images/1.jpg', 1],
-    ['images/2.jpg', 2],
-    ['images/3.jpg', 3],
-    ['images/4.jpg', 4],
-    ['images/5.jpg', 5],
-    ['images/6.jpg', 6],
-  ]);
-  let imageArr = Array.from(cardImgMap.keys());
+  const gameBoard = doc.querySelector('.board');
 
-  let cardNodeArr = Array.prototype.slice.call(
-    document.querySelectorAll('.flip-container'),
+  gameBoard.addEventListener('click', event => {
+    if (event.target.classList.contains('front')) {
+      let flippedCard = event.target.parentElement;
+
+      flippedCard.classList.toggle('hover');
+      setTimeout(() => {
+        flippedCard.classList.remove('hover');
+      }, 1100);
+    }
+  });
+
+  const cardNodeArr = Array.prototype.slice.call(
+    doc.querySelectorAll('.flip-container'),
   );
 
   let id = 0;
-  let cardArr = cardNodeArr.map(cardNode => {
+  const cardArr = cardNodeArr.map(cardNode => {
     if (id == 0 || id == 6) {
       id = 0;
       images = shuffle(imageArr);
