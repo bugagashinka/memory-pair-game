@@ -1,19 +1,20 @@
 (function(global) {
-  const MAX_FLIPP_CARDS = 2;
-
-  let flippedCount = 0;
-  let flippedCardArr = [];
+  const MAX_FLIPP_CARDS = 2,
+    SHOW_CARDS_TIME = 1000;
 
   const doc = global.document,
-    win = global.window,
-    cardImgMap = new Map([
-      ['images/1.jpg', 1],
-      ['images/2.jpg', 2],
-      ['images/3.jpg', 3],
-      ['images/4.jpg', 4],
-      ['images/5.jpg', 5],
-      ['images/6.jpg', 6],
-    ]);
+    win = global.window;
+
+  let flippedCount = 0,
+    flippedCardArr = [],
+    cardImgArr = [
+      'images/1.jpg',
+      'images/2.jpg',
+      'images/3.jpg',
+      'images/4.jpg',
+      'images/5.jpg',
+      'images/6.jpg',
+    ];
 
   const gameBoard = doc.querySelector('.board');
 
@@ -49,7 +50,7 @@
   function flippCardFrontEnd(cardNode) {
     setTimeout(() => {
       cardNode.classList.remove('hover');
-    }, 1000);
+    }, SHOW_CARDS_TIME);
   }
 
   function cardPairCheck() {}
@@ -62,20 +63,14 @@
   const cardArr = cardNodeArr.map(cardNode => {
     if (id == 0 || id == 6) {
       id = 0;
-      images = shuffle(Array.from(cardImgMap.keys()));
+      cardImgArr = shuffle(cardImgArr);
     }
-
-    let imgPath = images[id++];
-    let card = new Card(cardNode, imgPath, cardImgMap.get(imgPath));
-    return card;
+    setCardImg(cardNode, cardImgArr[id++]);
   });
 
-  function Card(node, imgPath, type) {
-    this.type = type;
-    this.node = node;
-
+  function setCardImg(cardNode, imgPath) {
     let imgNode = doc.createElement('img');
-    let cardBack = node.querySelector('.back');
+    let cardBack = cardNode.querySelector('.back');
     imgNode.src = imgPath;
     imgNode.setAttribute('width', '100%');
     imgNode.setAttribute('height', '100%');
