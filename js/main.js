@@ -19,7 +19,8 @@
   const gameBoard = doc.querySelector('.board');
 
   gameBoard.addEventListener('click', event => {
-    if (!event.target.classList.contains('front-disabled')) {
+    let target = event.target.classList;
+    if (!target.contains('front-disabled') && target.contains('front')) {
       flippCardBackEnd(event.target.parentElement);
     }
   });
