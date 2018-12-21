@@ -26,14 +26,12 @@
 
   gameBoard.addEventListener('transitionend', e => {
     if (!e.target.classList.contains('hover')) {
-      console.log('pop');
       flippedCardArr.pop();
-      if (!flippedCardArr.length) flippedCount = 0;
     }
   });
 
   function flippCardBackEnd(cardNode) {
-    if (flippedCount < MAX_FLIPP_CARDS) {
+    if (flippedCardArr.length < MAX_FLIPP_CARDS) {
       cardNode.classList.toggle('hover');
       flippedCount++;
       flippedCardArr.push(cardNode);
@@ -55,17 +53,17 @@
 
   function disableCardPair() {
     flippedCardArr.forEach(card => {
-      card.re;
       card.children[0].classList.add('front-disabled');
-      console.log(card);
     });
+    if (flippedCount == 2 * cardImgArr.length) {
+      resetGame();
+    }
   }
 
   function cardPairCheck() {
     let res =
       flippedCardArr[0].children[1].children[0].src ==
       flippedCardArr[1].children[1].children[0].src;
-    console.log(res);
     return res;
   }
 
@@ -89,6 +87,13 @@
     imgNode.setAttribute('width', '100%');
     imgNode.setAttribute('height', '100%');
     cardBack.appendChild(imgNode);
+  }
+
+  function resetGame() {
+    cardNodeArr.forEach(cardNode => {
+      let cardFront = cardNode.querySelector('.front');
+      cardFront.classList.remove('front-disabled');
+    });
   }
 
   function shuffle(arr) {
