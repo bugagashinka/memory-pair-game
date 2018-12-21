@@ -5,7 +5,7 @@
   const doc = global.document,
     win = global.window;
 
-  let flippedCount = 0,
+  let pairCount = 0,
     flippedCardArr = [],
     cardImgArr = [
       'images/1.jpg',
@@ -34,12 +34,12 @@
   function flippCardBackEnd(cardNode) {
     if (flippedCardArr.length < MAX_FLIPP_CARDS) {
       cardNode.classList.toggle('hover');
-      flippedCount++;
       flippedCardArr.push(cardNode);
     }
 
     if (flippedCardArr.length == MAX_FLIPP_CARDS) {
       if (cardPairCheck()) {
+        pairCount++;
         disableCardPair();
       }
       flippedCardArr.forEach(flippCardFrontEnd);
@@ -56,8 +56,8 @@
     flippedCardArr.forEach(card => {
       card.children[0].classList.add('front-disabled');
     });
-    if (flippedCount == 2 * cardImgArr.length) {
-      resetGame();
+    if (pairCount == cardImgArr.length) {
+      setTimeout(resetGame, 2000);
     }
   }
 
@@ -91,6 +91,7 @@
   }
 
   function resetGame() {
+    pairCount = 0;
     cardNodeArr.forEach(cardNode => {
       let cardFront = cardNode.querySelector('.front');
       cardFront.classList.remove('front-disabled');
