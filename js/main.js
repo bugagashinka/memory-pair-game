@@ -19,7 +19,7 @@
   const gameBoard = doc.querySelector('.board');
 
   gameBoard.addEventListener('click', event => {
-    if (event.target.classList.contains('front')) {
+    if (!event.target.classList.contains('front-disabled')) {
       flippCardBackEnd(event.target.parentElement);
     }
   });
@@ -41,7 +41,7 @@
 
     if (flippedCardArr.length == MAX_FLIPP_CARDS) {
       if (cardPairCheck()) {
-        console.log('We have pair');
+        disableCardPair();
       }
       flippedCardArr.forEach(flippCardFrontEnd);
     }
@@ -53,7 +53,21 @@
     }, SHOW_CARDS_TIME);
   }
 
-  function cardPairCheck() {}
+  function disableCardPair() {
+    flippedCardArr.forEach(card => {
+      card.re;
+      card.children[0].classList.add('front-disabled');
+      console.log(card);
+    });
+  }
+
+  function cardPairCheck() {
+    let res =
+      flippedCardArr[0].children[1].children[0].src ==
+      flippedCardArr[1].children[1].children[0].src;
+    console.log(res);
+    return res;
+  }
 
   const cardNodeArr = Array.prototype.slice.call(
     doc.querySelectorAll('.flip-container'),

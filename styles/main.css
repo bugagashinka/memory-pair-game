@@ -75,6 +75,10 @@ body {
   background-color: #fff;
 }
 
+.front-disabled {
+  background-color: #bfbebe;
+}
+
 .back {
   transform: rotateY(180deg);
 }
