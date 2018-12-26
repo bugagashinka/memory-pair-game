@@ -17,7 +17,7 @@
       'images/6.jpg',
     ];
 
-  const gameBoard = doc.querySelector('.board');
+  const gameBoard = getElementBy('.board', doc);
 
   gameBoard.addEventListener('click', event => {
     let target = event.target.classList;
@@ -58,7 +58,8 @@
 
   function disableCardPair() {
     flippedCardArr.forEach(card => {
-      card.children[0].classList.add('front-disabled');
+      const frontCardStyles = getElementBy('.front', card).classList;
+      frontCardStyles.add('front-disabled');
     });
     if (pairCount == cardImgArr.length) {
       setTimeout(resetGame, WAIT_TIME_BEFORE_RESET);
@@ -67,9 +68,13 @@
 
   function cardPairCheck() {
     return (
-      flippedCardArr[0].children[1].children[0].src ==
-      flippedCardArr[1].children[1].children[0].src
+      getElementBy('.back img', flippedCardArr[0]).src ==
+      getElementBy('.back img', flippedCardArr[1]).src
     );
+  }
+
+  function getElementBy(selector, root) {
+    return root.querySelector(selector);
   }
 
   const cardNodeArr = Array.prototype.slice.call(
@@ -83,7 +88,7 @@
 
   function setCardImg(cardNode, imgPath) {
     let imgNode = doc.createElement('img');
-    let cardBack = cardNode.querySelector('.back');
+    let cardBack = getElementBy('.back', cardNode);
     imgNode.src = imgPath;
     imgNode.setAttribute('width', '100%');
     imgNode.setAttribute('height', '100%');
@@ -93,7 +98,7 @@
   function resetGame() {
     pairCount = 0;
     cardNodeArr.forEach(cardNode => {
-      let cardFront = cardNode.querySelector('.front');
+      let cardFront = getElementBy('.front', cardNode);
       cardFront.classList.remove('front-disabled');
     });
   }
