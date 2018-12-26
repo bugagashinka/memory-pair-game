@@ -76,13 +76,9 @@
     doc.querySelectorAll('.flip-container'),
   );
 
-  let id = 0;
-  const cardArr = cardNodeArr.map(cardNode => {
-    if (id == 0 || id == 6) {
-      id = 0;
-      cardImgArr = shuffle(cardImgArr);
-    }
-    setCardImg(cardNode, cardImgArr[id++]);
+  const fullImgArray = shuffle(cardImgArr.concat(cardImgArr));
+  const cardArr = cardNodeArr.map((cardNode, id) => {
+    setCardImg(cardNode, fullImgArray[id++]);
   });
 
   function setCardImg(cardNode, imgPath) {
