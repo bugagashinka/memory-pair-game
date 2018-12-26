@@ -1,10 +1,7 @@
-(function(global) {
+(function() {
   const MAX_FLIPP_CARDS = 2,
     SHOW_CARDS_TIME = 1000,
     WAIT_TIME_BEFORE_RESET = 2000;
-
-  const doc = global.document,
-    win = global.window;
 
   let pairCount = 0,
     flippedCardArr = [],
@@ -17,17 +14,20 @@
       'images/6.jpg',
     ];
 
-  const gameBoard = getElementBy('.board', doc);
+  const gameBoard = getElementBy('.board', document);
 
-  gameBoard.addEventListener('click', event => {
-    let target = event.target.classList;
-    if (!target.contains('front-disabled') && target.contains('front')) {
-      flippCardBackEnd(event.target.parentElement);
+  gameBoard.addEventListener('click', ({ target }) => {
+    let targetStyles = target.classList;
+    if (
+      !targetStyles.contains('front-disabled') &&
+      targetStyles.contains('front')
+    ) {
+      flippCardBackEnd(target.closest('.flipper'));
     }
   });
 
-  gameBoard.addEventListener('transitionend', e => {
-    if (!e.target.classList.contains('hover')) {
+  gameBoard.addEventListener('transitionend', ({ target }) => {
+    if (!target.classList.contains('hover')) {
       flippedCardArr.pop();
     }
   });
@@ -78,7 +78,7 @@
   }
 
   const cardNodeArr = Array.prototype.slice.call(
-    doc.querySelectorAll('.flip-container'),
+    document.querySelectorAll('.flip-container'),
   );
 
   const fullImgArray = shuffle(cardImgArr.concat(cardImgArr));
@@ -87,7 +87,7 @@
   });
 
   function setCardImg(cardNode, imgPath) {
-    let imgNode = doc.createElement('img');
+    let imgNode = document.createElement('img');
     let cardBack = getElementBy('.back', cardNode);
     imgNode.src = imgPath;
     imgNode.setAttribute('width', '100%');
@@ -108,4 +108,4 @@
       return 0.5 - Math.random();
     });
   }
-})(this);
+})();
