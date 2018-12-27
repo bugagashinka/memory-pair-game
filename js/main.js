@@ -18,22 +18,23 @@
 
   gameBoard.addEventListener('click', ({ target }) => {
     let targetStyles = target.classList;
-    if (targetStyles.contains('front')) {
-      console.log('call flippCardBackEnd, for', target.classList);
+    if (
+      !(flippedCardArr.length > 1) &&
+      !targetStyles.contains('front-disabled') &&
+      targetStyles.contains('front')
+    ) {
       flippCardBackEnd(target.closest('.flipper'));
     }
   });
 
   gameBoard.addEventListener('transitionend', ({ target }) => {
     if (!target.classList.contains('hover')) {
-      console.log('pop');
       flippedCardArr.pop();
     }
   });
 
   function flippCardBackEnd(cardNode) {
     if (
-      !targetStyles.contains('front-disabled') &&
       !cardNode.classList.contains('hover') &&
       flippedCardArr.length < MAX_FLIPP_CARDS
     ) {
@@ -44,7 +45,6 @@
     if (flippedCardArr.length == MAX_FLIPP_CARDS) {
       if (cardPairCheck()) {
         pairCount++;
-        console.log('MAX_FLIPP_CARDS cardPairCheck-TRUE ', pairCount);
         disableCardPair();
       }
       flippedCardArr.forEach(flippCardFrontEnd);
@@ -62,18 +62,12 @@
       const frontCardStyles = card.querySelector('.front').classList;
       frontCardStyles.add('front-disabled');
     });
-    console.log(pairCount + ' == ' + cardImgArr.length);
     if (pairCount == cardImgArr.length) {
       setTimeout(resetGame, WAIT_TIME_BEFORE_RESET);
     }
   }
 
   function cardPairCheck() {
-    console.log(
-      flippedCardArr[0].querySelector('.back img').src +
-        ' == ' +
-        flippedCardArr[1].querySelector('.back img').src,
-    );
     return (
       flippedCardArr[0].querySelector('.back img').src ==
       flippedCardArr[1].querySelector('.back img').src
